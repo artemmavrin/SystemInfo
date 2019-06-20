@@ -13,18 +13,17 @@ def system_info(file=None):
     if file is None:
         file = sys.stdout
 
-
     mach_info = [('Platform', platform.platform()),
                  ('Hostname', platform.node()),
                  ('Machine Type', platform.machine()),
                  ('Processor', platform.processor()),
                  ('Byte Order', sys.byteorder + '-endian'),
-                 ('Working Directory', os.getcwd()),]
+                 ('Working Directory', os.getcwd()), ]
 
     py_info = [('Version', sys.version),
                ('Executable', sys.executable),
                ('Implementation', platform.python_implementation()),
-               ('Search Path', '\n'.join(filter(None, sys.path[1:])).strip()),]
+               ('Search Path', '\n'.join(filter(None, sys.path[1:])).strip()), ]
 
     packages = [('NumPy', 'numpy'),
                 ('SciPy', 'scipy'),
@@ -33,7 +32,7 @@ def system_info(file=None):
                 ('pandas', 'pandas'),
                 ('scikit-learn', 'sklearn'),
                 ('Matplotlib', 'matplotlib'),
-                ('seaborn', 'seaborn'),]
+                ('seaborn', 'seaborn'), ]
 
     def version(package):
         try:
@@ -71,6 +70,7 @@ def system_info(file=None):
     pprint_info('Machine', mach_info)
     pprint_info('Python', py_info)
     pprint_info('Packages', package_info)
+
 
 if __name__ == '__main__':
     system_info()
