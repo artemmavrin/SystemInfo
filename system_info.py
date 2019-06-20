@@ -18,11 +18,13 @@ def system_info(file=None):
                  ('Hostname', platform.node()),
                  ('Machine Type', platform.machine()),
                  ('Processor', platform.processor()),
+                 ('Byte Order', sys.byteorder + '-endian'),
                  ('Working Directory', os.getcwd()),]
 
     py_info = [('Version', sys.version),
                ('Executable', sys.executable),
-               ('Implementation', platform.python_implementation()),]
+               ('Implementation', platform.python_implementation()),
+               ('Search Path', '\n'.join(filter(None, sys.path[1:])).strip()),]
 
     packages = [('NumPy', 'numpy'),
                 ('SciPy', 'scipy'),
