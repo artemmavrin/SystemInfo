@@ -59,13 +59,13 @@ def system_info(file=None):
     separator = ': '
 
     def pprint_info(label, mapping):
-        print('', label, '=' * len(label), sep='\n', file=file, flush=True)
+        print('', label, '=' * len(label), sep='\n', file=file)
         for k, v in mapping.items():
             if not isinstance(v, str):
                 v = str(v)
             if '\n' in v:
                 v = v.replace('\n', '\n' + ' ' * (padding + len(separator)))
-            print(k.rjust(padding), separator, v, sep='', file=file, flush=True)
+            print(k.rjust(padding), separator, v, sep='', file=file)
 
     pprint_info('Machine', mach_info)
     pprint_info('Python', py_info)
