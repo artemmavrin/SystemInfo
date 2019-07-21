@@ -45,9 +45,9 @@ def py_info(file=None):
         ('NumPy', 'numpy'),
         ('SciPy', 'scipy'),
         ('pandas', 'pandas'),
-        ('scikit-learn', 'sklearn'),
         ('Matplotlib', 'matplotlib'),
         ('seaborn', 'seaborn'),
+        ('scikit-learn', 'sklearn'),
         ('TensorFlow', 'tensorflow'),
         ('Pillow', 'PIL'),
     ]
