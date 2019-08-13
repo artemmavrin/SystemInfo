@@ -37,13 +37,19 @@ setup(
     author_email=_get_package_variable('__author_email__'),
     long_description=_read('README.md'),
     long_description_content_type='text/markdown',
-    packages=find_packages('src'),
+    packages=find_packages('src', exclude=['*.tests']),
     package_dir={
         '': 'src',
     },
     entry_points={
         'console_scripts': [
             'py_info = py_info:py_info',
+        ],
+    },
+    extras_require={
+        'dev': [
+            'pytest',
+            'coverage',
         ],
     },
     zip_safe=False,

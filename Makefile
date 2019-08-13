@@ -4,7 +4,7 @@ SETUPOPTS := -q
 IMAGE := py_info
 CONTAINER := py_info_test
 
-.PHONY: help install dev image run
+.PHONY: help install dev image run test
 
 help:
 	@ echo "Usage:"
@@ -17,7 +17,11 @@ install:
 	$(PYTHON) $(SETUP) $(SETUPOPTS) install
 
 dev:
-	$(PYTHON) -m pip install --upgrade --editable .
+	$(PYTHON) -m pip install --upgrade --editable .[dev]
+
+test:
+	coverage run -m pytest
+	coverage report --show-missing
 
 image:
 	docker build -t $(IMAGE) .
