@@ -1,7 +1,5 @@
 """Display information about the current system, Python, and Python packages."""
 
-from __future__ import print_function
-
 
 def py_info(file=None):
     import collections
@@ -9,6 +7,7 @@ def py_info(file=None):
     import os
     import platform
     import sys
+    import warnings
 
     # String to use for missing data
     unknown = '???'
@@ -55,7 +54,9 @@ def py_info(file=None):
     def version(package):
         """Try to get the version string of a package."""
         try:
-            module = importlib.import_module(package)
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                module = importlib.import_module(package)
         except ImportError:
             return None
 
