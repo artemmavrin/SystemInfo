@@ -1,49 +1,42 @@
-from __future__ import print_function
-
-import os
+import pathlib
 import re
 
 from setuptools import setup, find_packages
 
-HERE = os.path.dirname(__file__)
+_HERE = pathlib.Path(__file__).parent
 
 
-def resolve_path(*parts):
-    return os.path.join(HERE, *parts)
+def _resolve_path(*parts):
+    """Get a filename from a list of path components, relative to this file."""
+    return _HERE.joinpath(*parts).absolute()
 
 
-def read(*parts):
-    filename = resolve_path(*parts)
-    with open(filename, 'r') as f:
-        return f.read()
+def _read(*parts):
+    """Read a file's contents into a string."""
+    filename = _resolve_path(*parts)
+    return filename.read_text()
 
 
-def get_variable(name, parts):
-    source = read(*parts)
-    pattern = r'^%s = [\'"](?P<value>[^\'"]*)[\'"]' % name
-    regex = re.compile(pattern, flags=re.M)
-    result = regex.search(source)
-    if result:
-        return result.group('value')
-    error = 'Can\'t find variable %s in %s' % (name, resolve_path(*parts))
-    raise RuntimeError(error)
+__INIT__ = _read('src', 'py_info', '__init__.py')
 
 
-def get_version(*parts):
-    return get_variable('__version__', parts)
-
-
-def get_package_name(*parts):
-    return get_variable('__package__', parts)
+def _get_package_variable(name):
+    pattern = rf'^{name} = [\'"](?P<value>[^\'"]*)[\'"]'
+    match = re.search(pattern, __INIT__, flags=re.M)
+    if match:
+        return match.group('value')
+    raise RuntimeError(f'Cannot find variable {name}')
 
 
 setup(
-    name=get_package_name('src', 'py_info', '__init__.py'),
-    version=get_version('src', 'py_info', '__init__.py'),
-    description='Get information about Python and the system',
-    url='https://github.com/artemmavrin/py_info',
-    author='Artem Mavrin',
-    author_email='artemvmavrin@gmail.com',
+    name=_get_package_variable('__package__'),
+    version=_get_package_variable('__version__'),
+    description=_get_package_variable('__description__'),
+    url=_get_package_variable('__url__'),
+    author=_get_package_variable('__author__'),
+    author_email=_get_package_variable('__author_email__'),
+    long_description=_read('README.md'),
+    long_description_content_type='text/markdown',
     packages=find_packages('src'),
     package_dir={
         '': 'src',
