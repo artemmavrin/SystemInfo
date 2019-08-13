@@ -1,5 +1,7 @@
 # Python and System Info
 
+[![Build Status](https://travis-ci.com/artemmavrin/py_info.svg?branch=master)](https://travis-ci.com/artemmavrin/py_info)
+
 Get information about the current system, Python, and Python packages.
 
 ## Installation
