@@ -16,9 +16,14 @@ or
 python setup.py install
 ```
 
-will install a script called `py_info` on your system path.
+will install install the `py_info` Python package in your current environment
+and create a script called `py_info` on your system path.
 
 ## Usage
+
+### Using the `py_info` script
+
+From a terminal, run the `py_info` script:
 
 ```bash
 $ py_info
@@ -63,7 +68,36 @@ Packages
            Pillow: None
 ```
 
-The preceding output was generated in a Docker container based on the
+### Running the `py_info` package
+
+From a terminal, run `python -m py_info`:
+
+```bash
+$ python -m py_info
+
+System
+======
+...
+```
+
+### Using `py_info` inside a Python interpreter or script
+
+The module `py_info` can be imported and called, e.g., from the Python
+interpreter:
+
+```text
+>>> import py_info
+>>> py_info()
+
+System
+======
+...
+```
+
+
+## Docker Image
+
+The output shown above was generated in a Docker container based on the
 [Dockerfile](Dockerfile) in this repo.
 To reproduce it, ensure that [Docker](https://www.docker.com/) is installed, and
 run
