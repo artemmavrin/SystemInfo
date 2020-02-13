@@ -1,6 +1,7 @@
 # Python and System Info
 
-[![Build Status](https://travis-ci.com/artemmavrin/py_info.svg?branch=master)](https://travis-ci.com/artemmavrin/py_info)
+
+[![Build Status](https://github.com/artemmavrin/py_info/workflows/Python%20package/badge.svg)](https://github.com/artemmavrin/py_info/actions?query=workflow%3A%22Python+package%22)
 
 Get information about the current system, Python, and Python packages.
 
