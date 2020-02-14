@@ -18,8 +18,8 @@ class _PyInfo(_ModuleType):
         super().__init__(name=__name__, doc=__doc__)
         self.__dict__.update(_modules[__name__].__dict__)
 
-    def __call__(self):
-        return py_info()
+    def __call__(self, *args, **kwargs):
+        return py_info(*args, **kwargs)
 
 
 _modules[__name__] = _PyInfo()

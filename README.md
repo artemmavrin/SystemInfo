@@ -1,26 +1,29 @@
 # Python and System Info
 
-
+[![GitHub last commit](https://img.shields.io/github/last-commit/artemmavrin/py_info)](https://github.com/artemmavrin/py_info)
 [![Build Status](https://github.com/artemmavrin/py_info/workflows/Python%20package/badge.svg)](https://github.com/artemmavrin/py_info/actions?query=workflow%3A%22Python+package%22)
+[![Code Coverage](https://codecov.io/gh/artemmavrin/py_info/branch/master/graph/badge.svg)](https://codecov.io/gh/artemmavrin/py_info)
 
 Get information about the current system, Python, and Python packages.
 
 ## Installation
 
-After cloning the repo, either
+1. Use `pip` to install directly from GitHub:
 
-```bash
-make install
-```
+   ```bash
+   pip install git+https://github.com/artemmavrin/py_info.git
+   ```
 
-or
+2. Alternatively, clone the repo and install manually:
 
-```bash
-python setup.py install
-```
+   ```bash
+   git clone https://github.com/artemmavrin/py_info.git
+   cd py_info
+   make install
+   ```
 
-will install install the `py_info` Python package in your current environment
-and create a script called `py_info` on your system path.
+Either method will install install the `py_info` Python package in your current
+environment and create a script called `py_info` on your system path.
 
 ## Usage
 
@@ -33,8 +36,8 @@ $ py_info
 
 System
 ======
-         Platform: Linux-4.9.125-linuxkit-x86_64-with-debian-9.9
-         Hostname: cb441e9a1fc5
+         Platform: Linux-4.9.184-linuxkit-x86_64-with-debian-10.2
+         Hostname: 52a9020e146b
      Machine Type: x86_64
         Processor: ???
        Byte Order: little-endian
@@ -49,26 +52,53 @@ Working Directory: /home/py_info
 
 Python
 ======
-          Version: 3.7.3 (default, Jun 11 2019, 01:05:09) 
-                   [GCC 6.3.0 20170516]
+          Version: 3.7.6 (default, Feb  2 2020, 09:00:14) 
+                   [GCC 8.3.0]
        Executable: /usr/local/bin/python
    Implementation: CPython
       Python Path: /usr/local/lib/python37.zip
                    /usr/local/lib/python3.7
                    /usr/local/lib/python3.7/lib-dynload
                    /usr/local/lib/python3.7/site-packages
-                   /usr/local/lib/python3.7/site-packages/py_info-0.0.0-py3.7.egg
 
 Packages
 ========
-            NumPy: 1.16.4
-            SciPy: 1.3.0
-           pandas: 0.25.0
-       Matplotlib: 3.1.1
-          seaborn: 0.9.0
-     scikit-learn: 0.21.2
-       TensorFlow: 1.14.0
-           Pillow: None
+       matplotlib: 3.1.3
+            numpy: 1.18.1
+           pandas: 1.0.1
+            scipy: 1.4.1
+          sklearn: 0.22.1
+       tensorflow: 2.1.0
+```
+
+Run with the `-h` or `--help` flag to view usage instructions:
+
+```bash
+$ py_info --help
+usage: py_info [-h] [package [package ...]]
+
+Get information about Python and the system.
+
+positional arguments:
+  package     One or more Python packages. (default: ['matplotlib', 'numpy', 'pandas', 'scipy', 'sklearn', 'tensorflow'])
+
+optional arguments:
+  -h, --help  show this help message and exit
+``` 
+
+Specify which packages you care about by listing them as command line arguments:
+
+```bash
+$ py_info numpy tensorflow
+
+System
+======
+...
+Packages
+========
+            numpy: 1.18.1
+       tensorflow: None
+
 ```
 
 ### Running the `py_info` package
@@ -83,6 +113,8 @@ System
 ...
 ```
 
+You may also specify command line package names here.
+
 ### Using `py_info` inside a Python interpreter or script
 
 The module `py_info` can be imported and called, e.g., from the Python
@@ -95,6 +127,24 @@ interpreter:
 System
 ======
 ...
+>>> py_info('sklearn', 'scipy')  # Specify packages as positional arguments
+
+System
+======
+...
+Packages
+========
+          sklearn: 0.22.1
+            scipy: 1.4.1
+>>> py_info(['sklearn', 'scipy'])  # Specify a list of packages
+
+System
+======
+...
+Packages
+========
+          sklearn: 0.22.1
+            scipy: 1.4.1
 ```
 
 

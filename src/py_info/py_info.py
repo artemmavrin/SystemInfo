@@ -1,7 +1,17 @@
 """Display information about the current system, Python, and Python packages."""
 
+_DEFAULT_PACKAGES = [
+    'matplotlib',
+    'numpy',
+    'pandas',
+    'scipy',
+    'sklearn',
+    'tensorflow',
+]
 
-def py_info(file=None):
+
+def py_info(*packages: str, file=None):
+    import argparse
     import collections
     import importlib
     import os
@@ -9,16 +19,34 @@ def py_info(file=None):
     import sys
     import warnings
 
+    if not packages:
+        # No packages specified, parse command line arguments to get packages,
+        # falling back to default packages if no command line arguments are
+        # given
+        parser = argparse.ArgumentParser(
+            description='Get information about Python and the system.',
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        )
+        parser.add_argument('package', nargs='*', default=_DEFAULT_PACKAGES,
+                            help='One or more Python packages.')
+        args = parser.parse_args()
+        packages = args.package
+    elif len(packages) == 1 and not isinstance(packages[0], str):
+        # Allow the function to be passed a list of packages as the first
+        # positional argument (i.e., py_info(['numpy', 'scipy']) in addition to
+        # py_info('numpy', 'scipy')
+        packages = packages[0]
+
+    packages = list(map(str, packages))
+
     # String to use for missing data
     unknown = '???'
 
     # System search path
-    path = os.environ.get('PATH', None)
-    if path is None:
-        path = unknown
-    else:
-        # Convert path to a multi-line string, one line per component
-        path = '\n'.join(map(str.strip, path.split(os.pathsep)))
+    path = os.environ.get('PATH', unknown)
+
+    # Convert path to a multi-line string, one line per component
+    path = '\n'.join(map(str.strip, path.split(os.pathsep)))
 
     # Non-Python information about the current system
     system_info = [
@@ -39,31 +67,26 @@ def py_info(file=None):
         ('Python Path', '\n'.join(filter(None, sys.path[1:])).strip()),
     ]
 
-    # Tuples of the form (official name, import name) for important packages
-    packages = [
-        ('NumPy', 'numpy'),
-        ('SciPy', 'scipy'),
-        ('pandas', 'pandas'),
-        ('Matplotlib', 'matplotlib'),
-        ('seaborn', 'seaborn'),
-        ('scikit-learn', 'sklearn'),
-        ('TensorFlow', 'tensorflow'),
-        ('Pillow', 'PIL'),
-    ]
-
-    def version(package):
-        """Try to get the version string of a package."""
+    def get_module(package: str):
+        """Try to load a module."""
         try:
             with warnings.catch_warnings():
                 warnings.simplefilter('ignore')
-                module = importlib.import_module(package)
+                return importlib.import_module(package)
         except ImportError:
             return None
 
+    def version(package: str):
+        """Try to get the version string of a package."""
+        module = get_module(package)
+        if module is None:
+            return None
+
         v = getattr(module, '__version__', unknown)
+
         return v
 
-    package_info = [(name, version(package)) for name, package in packages]
+    package_info = [(package, version(package)) for package in packages]
 
     # Python dicts are ordered in Python 3.7:
     # https://mail.python.org/pipermail/python-dev/2017-December/151283.html
@@ -95,7 +118,3 @@ def py_info(file=None):
     pprint_info('System', system_info)
     pprint_info('Python', python_info)
     pprint_info('Packages', package_info)
-
-
-if __name__ == '__main__':
-    py_info()

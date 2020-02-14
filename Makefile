@@ -1,4 +1,5 @@
 PYTHON := python
+PIP := $(PYTHON) -m pip
 SETUP := setup.py
 SETUPOPTS := -q
 IMAGE := py_info
@@ -14,10 +15,11 @@ help:
 	@ echo "\tmake run       run the script in a Docker container."
 
 install:
-	$(PYTHON) $(SETUP) $(SETUPOPTS) install
+	$(PIP) install .
 
 dev:
-	$(PYTHON) -m pip install --upgrade --editable .[dev]
+	$(PIP) install --upgrade pip
+	$(PIP) install --upgrade --editable .[dev]
 
 test:
 	coverage run -m pytest
